@@ -146,4 +146,25 @@ endfunction
 
 command! SortScalaImports call SortScalaImports()
 
+function! scala#Foldtext() abort
+  if &foldmethod !=# 'syntax'
+    return foldtext()
+  endif
+
+  let line_foldstart = getline(v:foldstart)
+
+  if line_foldstart =~# '^//'
+    let first_comment = getline(v:foldstart + 2)
+    let head = 'CMD>'
+    let sub = substitute(first_comment, '^// ', '', '')
+    let sub = substitute(sub, 'MAGIC %md ', '', '')
+    let lines = v:foldend-v:foldstart + 1
+    return head . ' (' . printf("%2S", lines) . ' lines): ' . sub
+  else
+    return foldtext()
+  endif
+endfunction
+
+setlocal foldtext=scala#Foldtext()
+
 " vim:set sw=2 sts=2 ts=8 et:

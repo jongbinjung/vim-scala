@@ -228,4 +228,6 @@ if main_syntax ==# 'scala'
   unlet main_syntax
 endif
 
+exe 'syn region scalaBlock start="// COMMAND" end="// COMMAND"ms=s-2,me=s-1 contains=' . s:ContainedGroup() . ' fold'
+
 " vim:set sw=2 sts=2 ts=8 et:
